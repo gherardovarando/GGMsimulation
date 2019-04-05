@@ -21,13 +21,14 @@ for (i in 1:length(ps)){
     temp1 <- temp2 <- array(dim = c(N , M))
     for (k in 1:M){
       ug <- rgraph(p, d)
-      sample1 <- port(N = N, d = d, p = p, zapzeros = TRUE, rfun = rnorm)
-      sample2 <- diagdom(N = N, d = d, p = p, rfun = rnorm)
-      temp1[, k] <- apply(sample1, MARGIN = 3, FUN = function(M){
-        max(abs(M[upper.tri(M) & M!=0]))
+      sample1 <- port(N = N, ug = ug, zapzeros = TRUE, rfun = rnorm)
+      sample2 <- diagdom(N = N, ug = ug, rfun = rnorm)
+      sample2 <- array(apply(sample2 ,MARGIN =  3, cov2cor), dim = dim(sample2))
+      temp1[, k] <- apply(sample1, MARGIN = 3, FUN = function(mat){
+        max(abs(mat[upper.tri(mat) & mat!=0]))
       })
-      temp2[, k] <- apply(sample2, MARGIN = 3, FUN = function(M){
-        max(abs(M[upper.tri(M) & M!=0]))
+      temp2[, k] <- apply(sample2, MARGIN = 3, FUN = function(mat){
+        max(abs(mat[upper.tri(mat) & mat!=0]))
       })
     }
       
@@ -43,30 +44,29 @@ write.csv(res2, "res_sizeoffdiag/sizeoff_diagdom_matrix.csv")
 
 
 
-
-
 Ks <- c(2, 3, 10) 
 
 res1 <- array(dim = c(length(ps),  length(Ks), 6 ), data = 0, 
-              dimnames = list(ps, Ks, names(summary(runif(10)))))
+              dimnames = list(p = ps, K = Ks, names(summary(runif(10)))))
 
 res2 <- array(dim = c(length(ps),  length(Ks), 6 ), data = 0, 
-              dimnames = list(ps, Ks, names(summary(runif(10)))))
+              dimnames = list(p = ps, K = Ks, names(summary(runif(10)))))
 
 for (i in 1:length(ps)){
   for (j in 1:length(Ks)){
     p <- ps[i]
-    d <-  Ks[j] / ( p - 1)
+    d <-  Ks[j] / (p - 1)
     temp1 <- temp2 <- array(dim = c(N , M))
     for (k in 1:M){
       ug <- rgraph(p, d)
-      sample1 <- port(N = N, d = d, p = p, zapzeros = TRUE, rfun = rnorm)
-      sample2 <- diagdom(N = N, d = d, p = p, rfun = rnorm)
-      temp1[, k] <- apply(sample1, MARGIN = 3, FUN = function(M){
-        max(abs(M[upper.tri(M) & M!=0]))
+      sample1 <- port(N = N, ug = ug, zapzeros = TRUE, rfun = rnorm)
+      sample2 <- diagdom(N = N, ug = ug, rfun = rnorm)
+      sample2 <- array(apply(sample2 ,MARGIN =  3, cov2cor), dim = dim(sample2))
+      temp1[, k] <- apply(sample1, MARGIN = 3, FUN = function(mat){
+        max(abs(mat[upper.tri(mat) & mat!=0]))
       })
-      temp2[, k] <- apply(sample2, MARGIN = 3, FUN = function(M){
-        max(abs(M[upper.tri(M) & M!=0]))
+      temp2[, k] <- apply(sample2, MARGIN = 3, FUN = function(mat){
+        max(abs(mat[upper.tri(mat) & mat!=0]))
       })
     }
     
