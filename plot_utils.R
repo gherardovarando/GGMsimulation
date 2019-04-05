@@ -210,3 +210,34 @@ plot_time <- function(p, d, method, fname, dir_name = "res", plot_title = "", ..
     width = 7, height = 5
   )
 }
+
+
+is.diagdom <- function(M){
+  all(2*diag(M) >= rowSums(abs(M)) )
+}
+
+
+ronion <- function(N, p) {
+  sample <- array(dim = c(p, p, N))
+  for (i in 1:N){
+    sample[, , i] <- clusterGeneration::genPositiveDefMat(dim = p, rangeVar = c(1,1),
+                                                          covMethod  ="onion")$Sigma
+  }
+  return(sample)
+}
+rvine <- function(N, p) {
+  sample <- array(dim = c(p, p, N))
+  for (i in 1:N){
+    sample[, , i] <- clusterGeneration::genPositiveDefMat(dim = p, rangeVar = c(1,1),
+                                                          covMethod  ="c-vine")$Sigma
+  }
+  return(sample)
+}
+
+rpolar <- function(N, p) {
+  sample <- array(dim = c(p, p, N))
+  for (i in 1:N){
+    sample[, , i] <- randcorr::randcorr(p = p)
+  }
+  return(sample)
+}
