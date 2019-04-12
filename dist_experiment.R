@@ -59,7 +59,7 @@ for (i in 1:length(ps)){
     temp1 <- temp2 <- array(dim = c(N , M))
     for (k in 1:M){
       ug <- rgraph(p, d)
-      sample1 <- port(N = N, ug = ug, zapzeros = TRUE, rfun = rnorm)
+      #sample1 <- port(N = N, ug = ug, zapzeros = TRUE, rfun = rnorm)
       sample2 <- diagdom(N = N, ug = ug, rfun = rnorm)
       sample2 <- array(apply(sample2 ,MARGIN =  3, cov2cor), dim = dim(sample2))
       temp1[, k] <- apply(sample1, MARGIN = 3, FUN = function(mat){

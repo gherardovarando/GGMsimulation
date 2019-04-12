@@ -241,3 +241,56 @@ rpolar <- function(N, p) {
   }
   return(sample)
 }
+
+
+##' sub sample 
+##' 
+##' @param x data row=observation, column = variables
+##' @param bounds vector of bounding,
+##'               bounds[1] contains the inferior limits
+##'               bounds[2] contains the upper limits
+sub_sample <- function(x, bounds){
+  
+  p <- ncol(x)
+  for (i in 1:p) {
+    x <- x[x[, i] > bounds[1] & x[, i] < bounds[2], ]
+  }
+  return(x)
+}
+
+plot_elliptope <- function(x, bounds = NULL,
+                           sort.fun = function(v){ return(sum(v^2))}, col = "red",
+                           pallette =  colorRampPalette(c("red","blue")), file=NULL,... ){
+  N <- nrow(x)
+  if (!is.null(bounds)){
+    x <- sub_sample(x = x, bounds  = bounds)
+  }
+  if (is.function(sort.fun)){
+    idx <- sort(apply(x, MARGIN = 1, FUN = sort.fun), index.return  = TRUE)$ix
+  }else{
+    idx <- 1:N
+  }
+  if (is.function(pallette)){
+    col = pallette(N)
+  }else{
+    col = col
+  }
+  rgl::plot3d(x[idx,], col = col,
+              xlab = "x", ylab="y", zlab = "z",...)
+  if (is.character(file)){
+    rgl.postscript(file,fmt = "pdf")
+  }
+  
+}
+
+vol_elliptope <- function(n){
+  if (n %% 2 == 0){
+    num <- 2^((3 * n ^ 2 - 4 * n) / 4) * (gamma(n/2)) ^ n * prod(gamma(2 * (1 : ((n - 2) / 2))))
+    den <- (gamma(n))^(n - 1)
+    return(pi ^ ((n * (n - 2)) / 4) * num / den)
+  }else{
+    num <- prod(gamma(2 * (1 : ((n - 1) / 2))))
+    den <- 2 ^ (((n - 1) ^ 2) / 4) * (gamma((n + 1) / 2 ))^(n - 1)
+    return(pi ^ ((n ^ 2 - 1) / 4) * num/den)
+  }
+}
