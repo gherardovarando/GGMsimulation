@@ -1,7 +1,7 @@
 library(gmat)
 library(ggplot2)
 library(igraph)
-source("plot_utils.R")
+source("opt/plot_utils.R")
 
 
 Adj <- matrix(nrow = 3, ncol = 3, data = 0)

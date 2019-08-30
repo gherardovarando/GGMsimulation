@@ -1,6 +1,6 @@
 library(gmat)
 library(ggplot2)
-source("plot_utils.R")
+#source("plot_utils.R")
 p <- 50
 
 Adj <- matrix(nrow = p, ncol = p, 0)
