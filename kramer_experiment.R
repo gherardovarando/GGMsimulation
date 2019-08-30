@@ -10,11 +10,12 @@
 # Juliane Schäfer   (JSchaefer@uhbs.ch)
 # Nicole Krämer     (nkraemer@cs.tu-berlin.de)
 #
-# author of some modifications for reproducing the experiments in:
+# authors of some modifications for reproducing the experiments in:
 # "A partial orthogonalization method for simulation covariance and
 # concentration graph matrices", Proceedings of Machine Learning Research (PGM
 # 2018).
 # Irene Córdoba 	(irene.cordoba@upm.es)
+# Gherardo Varando	(gherardo.varando@math.ku.dk)
 
 # LICENCE
 #
